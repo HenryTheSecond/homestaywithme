@@ -4,6 +4,8 @@ import com.homestaywithme.application.dto.response.Response;
 import com.homestaywithme.domain.homestay.usecase.createhomestay.dto.request.CreateHomestayRequest;
 import com.homestaywithme.domain.homestay.usecase.gethomestayprices.GetHomestayPricesUseCase;
 import com.homestaywithme.domain.homestay.usecase.gethomestayprices.dto.request.GetHomestayPricesRequest;
+import com.homestaywithme.domain.homestay.usecase.searchhomestay.SearchHomestayUseCase;
+import com.homestaywithme.domain.homestay.usecase.searchhomestay.dto.request.SearchHomestayRequest;
 import com.homestaywithme.domain.homestay.usecase.updatehomestay.dto.request.UpdateHomestayRequest;
 import com.homestaywithme.domain.homestay.usecase.createhomestay.CreateHomestayUseCase;
 import com.homestaywithme.domain.homestay.usecase.updatehomestayprice.UpdateHomestayPriceUseCase;
@@ -20,6 +22,7 @@ public class HomestayController {
     @Autowired private UpdateHomestayUseCase updateHomestayUseCase;
     @Autowired private UpdateHomestayPriceUseCase updateHomestayPriceUseCase;
     @Autowired private GetHomestayPricesUseCase getHomestayPricesUseCase;
+    @Autowired private SearchHomestayUseCase searchHomestayUseCase;
 
     @PostMapping
     public Response createHomestay(@RequestBody CreateHomestayRequest request) {
@@ -41,5 +44,10 @@ public class HomestayController {
     @GetMapping("/{id}/prices")
     public Response getHomestayPrices(@PathVariable("id") Long id, GetHomestayPricesRequest request) {
         return getHomestayPricesUseCase.getHomestayPrices(id, request);
+    }
+
+    @GetMapping
+    public Response searchHomestay(SearchHomestayRequest request) {
+        return searchHomestayUseCase.searchHomestay(request);
     }
 }
