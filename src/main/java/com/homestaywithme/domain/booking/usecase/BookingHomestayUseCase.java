@@ -2,6 +2,10 @@ package com.homestaywithme.domain.booking.usecase;
 
 import com.homestaywithme.application.dto.response.Response;
 import com.homestaywithme.application.service.ResponseService;
+import com.homestaywithme.domain.booking.constant.BookingStatus;
+import com.homestaywithme.domain.booking.constant.Currency;
+import com.homestaywithme.domain.booking.constant.BookingExceptionMessage;
+import com.homestaywithme.domain.booking.constant.HomestayAvailabilityStatus;
 import com.homestaywithme.domain.booking.entity.Booking;
 import com.homestaywithme.domain.booking.entity.HomestayAvailability;
 import com.homestaywithme.domain.booking.repository.BookingRepository;
@@ -10,6 +14,7 @@ import com.homestaywithme.domain.booking.usecase.bookinghomestay.request.dto.req
 import com.homestaywithme.domain.booking.usecase.bookinghomestay.request.dto.response.BookingResponse;
 import com.homestaywithme.domain.homestay.entity.Homestay;
 import com.homestaywithme.domain.homestay.service.HomestayService;
+import com.homestaywithme.domain.shared.constant.ResponseCode;
 import com.homestaywithme.domain.shared.exception.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,7 +50,9 @@ public class BookingHomestayUseCase {
 
         var homestayAvailabilities = validateHomestayAvailability(request);
         homestayAvailabilities.forEach(x ->
-                homestayAvailabilityRepository.updateStatus(x.getHomestayId(), x.getDate(), 1));
+                homestayAvailabilityRepository.updateStatus(x.getHomestayId(),
+                        x.getDate(),
+                        HomestayAvailabilityStatus.AVAILABLE.getValue()));
 
         var homestay = new Homestay();
         homestay.setId(request.getHomestayId());
@@ -57,9 +64,9 @@ public class BookingHomestayUseCase {
                 .checkoutDate(request.getTo())
                 .note(request.getNote())
                 .guests(request.getGuests())
-                .currency("USD")
+                .currency(Currency.USD.getValue())
                 .totalAmount(calculatePrice(homestayAvailabilities))
-                .status(0)
+                .status(BookingStatus.DRAFT.getValue())
                 .build();
 
         bookingRepository.save(booking);
@@ -77,11 +84,11 @@ public class BookingHomestayUseCase {
         var currentDate = LocalDate.now();
 
         if(from.isAfter(to) || from.isBefore(currentDate)) {
-            throw new BusinessException("Check in date is invalid");
+            throw new BusinessException(BookingExceptionMessage.CHECK_IN_DATE_INVALID, ResponseCode.BAD_REQUEST);
         }
 
         if(request.getGuests() <= 0) {
-            throw new BusinessException("Guests must be greater than 0");
+            throw new BusinessException(BookingExceptionMessage.GUESTS_INVALID, ResponseCode.BAD_REQUEST);
         }
     }
 
@@ -89,7 +96,7 @@ public class BookingHomestayUseCase {
         var homestay = homestayService.findHomestayById(request.getHomestayId());
 
         if(homestay.getGuests() < request.getGuests()) {
-            throw new BusinessException("Homestay capacity is not enough");
+            throw new BusinessException(BookingExceptionMessage.HOMESTAY_CAPACITY_NOT_ENOUGH, ResponseCode.BAD_REQUEST);
         }
     }
 
@@ -100,7 +107,8 @@ public class BookingHomestayUseCase {
         var fromDate = request.getFrom();
         var toDate = request.getTo();
         if(homestayAvailabilities.size() < ChronoUnit.DAYS.between(fromDate, toDate) + 1) {
-            throw new BusinessException(MessageFormat.format("Homestay is not available from {0} to {1}", fromDate, toDate));
+            throw new BusinessException(MessageFormat.format(BookingExceptionMessage.HOMESTAY_UNAVAILABLE_PATTERN, fromDate, toDate),
+                    ResponseCode.BAD_REQUEST);
         }
 
         return homestayAvailabilities;

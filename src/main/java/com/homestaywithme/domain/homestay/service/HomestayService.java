@@ -1,7 +1,9 @@
 package com.homestaywithme.domain.homestay.service;
 
+import com.homestaywithme.domain.homestay.constant.HomestayExceptionMessage;
 import com.homestaywithme.domain.homestay.entity.Homestay;
 import com.homestaywithme.domain.homestay.repository.HomestayRepository;
+import com.homestaywithme.domain.shared.constant.ResponseCode;
 import com.homestaywithme.domain.shared.exception.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,6 +38,7 @@ public class HomestayService {
     }
 
     private BusinessException getHomestayNotExistException(Long id) {
-        return new BusinessException("Not found homestay with Id: " + id);
+        return new BusinessException(String.format(HomestayExceptionMessage.HOMESTAY_NOT_FOUND_FORMAT, id),
+                ResponseCode.BAD_REQUEST);
     }
 }

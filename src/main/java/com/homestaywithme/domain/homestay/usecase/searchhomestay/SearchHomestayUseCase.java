@@ -2,8 +2,13 @@ package com.homestaywithme.domain.homestay.usecase.searchhomestay;
 
 import com.homestaywithme.application.dto.response.Response;
 import com.homestaywithme.application.service.ResponseService;
+import com.homestaywithme.domain.homestay.constant.HomestayExceptionMessage;
 import com.homestaywithme.domain.homestay.repository.HomestayRepository;
+import com.homestaywithme.domain.homestay.usecase.searchhomestay.constant.SearchHomestaySort;
 import com.homestaywithme.domain.homestay.usecase.searchhomestay.dto.request.SearchHomestayRequest;
+import com.homestaywithme.domain.shared.constant.Order;
+import com.homestaywithme.domain.shared.constant.ResponseCode;
+import com.homestaywithme.domain.shared.constant.StringConstant;
 import com.homestaywithme.domain.shared.exception.BusinessException;
 import com.homestaywithme.domain.shared.model.PaginationResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,22 +42,24 @@ public class SearchHomestayUseCase {
 
     private String validateAndGetOrderBy(String sort, String order) {
         sort = switch (sort) {
-            case "", "distance" -> "h.geom <-> d.geom";
-            case "price" -> "totalPrice";
-            default -> throw new BusinessException("Not supported sort by " + sort);
+            case "", "distance" -> SearchHomestaySort.DISTANCE.getValue();
+            case "price" -> SearchHomestaySort.PRICE.getValue();
+            default -> throw new BusinessException(String.format(HomestayExceptionMessage.SORT_NOT_SUPPORTED_FORMAT, sort),
+                    ResponseCode.BAD_REQUEST);
         };
 
-        return sort + " " + validateAndGetOrder(order);
+        return sort + StringConstant.SPACE + validateAndGetOrder(order);
     }
 
     private String validateAndGetOrder(String order) {
-        if(order == null || order.isBlank() || order.equalsIgnoreCase("asc")) {
-            return "ASC";
+        if(order == null || order.isBlank() || order.equalsIgnoreCase(Order.ASC.getValue())) {
+            return Order.ASC.getValue();
         }
-        else if(order.equalsIgnoreCase("desc")) {
-            return "DESC";
+        else if(order.equalsIgnoreCase(Order.DESC.getValue())) {
+            return Order.DESC.getValue();
         }
 
-        throw new BusinessException("Not supported order " + order);
+        throw new BusinessException(String.format(HomestayExceptionMessage.ORDER_NOT_SUPPORTED_FORMAT, order),
+                ResponseCode.BAD_REQUEST);
     }
 }

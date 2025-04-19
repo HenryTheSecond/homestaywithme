@@ -1,10 +1,20 @@
 package com.homestaywithme.domain.shared.exception;
 
-import lombok.*;
+import com.homestaywithme.domain.shared.constant.ResponseCode;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class BusinessException extends RuntimeException {
-    public BusinessException(String message) {
+    private ResponseCode responseCode;
+
+    public BusinessException(String message, ResponseCode responseCode) {
         super(message);
+        this.responseCode = responseCode;
     }
 }
