@@ -1,7 +1,7 @@
 package com.homestaywithme.domain.booking.usecase;
 
-import com.homestaywithme.application.dto.response.Meta;
 import com.homestaywithme.application.dto.response.Response;
+import com.homestaywithme.application.service.ResponseService;
 import com.homestaywithme.domain.booking.entity.Booking;
 import com.homestaywithme.domain.booking.entity.HomestayAvailability;
 import com.homestaywithme.domain.booking.repository.BookingRepository;
@@ -22,12 +22,21 @@ import java.util.List;
 
 @Service
 public class BookingHomestayUseCase {
+    private final ResponseService responseService;
+    private final HomestayService homestayService;
+    private final HomestayAvailabilityRepository homestayAvailabilityRepository;
+    private final BookingRepository bookingRepository;
+
     @Autowired
-    private HomestayService homestayService;
-    @Autowired
-    private HomestayAvailabilityRepository homestayAvailabilityRepository;
-    @Autowired
-    private BookingRepository bookingRepository;
+    public BookingHomestayUseCase(ResponseService responseService,
+                                  HomestayService homestayService,
+                                  HomestayAvailabilityRepository homestayAvailabilityRepository,
+                                  BookingRepository bookingRepository) {
+        this.responseService = responseService;
+        this.homestayService = homestayService;
+        this.homestayAvailabilityRepository = homestayAvailabilityRepository;
+        this.bookingRepository = bookingRepository;
+    }
 
     @Transactional
     public Response bookingHomestay(BookingRequest request) {

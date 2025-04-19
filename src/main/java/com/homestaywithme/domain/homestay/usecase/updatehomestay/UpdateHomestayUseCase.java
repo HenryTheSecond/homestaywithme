@@ -20,20 +20,20 @@ import java.util.stream.Collectors;
 
 @Service
 public class UpdateHomestayUseCase {
-    @Autowired
-    private HomestayService homestayService;
+    private final HomestayService homestayService;
+    private final HomestayRepository homestayRepository;
+    private final AmenityService amenityService;
+    private final GeometryFactory geometryFactory;
+    private final EntityManager entityManager;
 
     @Autowired
-    private HomestayRepository homestayRepository;
-
-    @Autowired
-    private AmenityService amenityService;
-
-    @Autowired
-    private GeometryFactory geometryFactory;
-
-    @Autowired
-    private EntityManager entityManager;
+    public UpdateHomestayUseCase(HomestayService homestayService, HomestayRepository homestayRepository, AmenityService amenityService, GeometryFactory geometryFactory, EntityManager entityManager) {
+        this.homestayService = homestayService;
+        this.homestayRepository = homestayRepository;
+        this.amenityService = amenityService;
+        this.geometryFactory = geometryFactory;
+        this.entityManager = entityManager;
+    }
 
     @Transactional
     public Response updateHomestay(Long id, UpdateHomestayRequest request) {

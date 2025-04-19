@@ -11,8 +11,12 @@ import java.util.List;
 
 @Service
 public class AmenityService {
+    private final AmenityRepository amenityRepository;
+
     @Autowired
-    private AmenityRepository amenityRepository;
+    public AmenityService(AmenityRepository amenityRepository) {
+        this.amenityRepository = amenityRepository;
+    }
 
     @Transactional
     public void checkAmenityExist(List<Integer> amenityIds) {

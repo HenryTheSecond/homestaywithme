@@ -11,10 +11,14 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class GetHomestayPricesUseCase {
+    private final HomestayService homestayService;
+    private final HomestayAvailabilityRepository homestayAvailabilityRepository;
+
     @Autowired
-    private HomestayService homestayService;
-    @Autowired
-    private HomestayAvailabilityRepository homestayAvailabilityRepository;
+    public GetHomestayPricesUseCase(HomestayService homestayService, HomestayAvailabilityRepository homestayAvailabilityRepository) {
+        this.homestayService = homestayService;
+        this.homestayAvailabilityRepository = homestayAvailabilityRepository;
+    }
 
     public Response getHomestayPrices(Long id, GetHomestayPricesRequest request) {
         homestayService.checkHomestayExistOrThrow(id);

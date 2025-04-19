@@ -18,11 +18,24 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("api/homestays")
 public class HomestayController {
-    @Autowired private CreateHomestayUseCase createHomestayUseCase;
-    @Autowired private UpdateHomestayUseCase updateHomestayUseCase;
-    @Autowired private UpdateHomestayPriceUseCase updateHomestayPriceUseCase;
-    @Autowired private GetHomestayPricesUseCase getHomestayPricesUseCase;
-    @Autowired private SearchHomestayUseCase searchHomestayUseCase;
+    private final CreateHomestayUseCase createHomestayUseCase;
+    private final UpdateHomestayUseCase updateHomestayUseCase;
+    private final UpdateHomestayPriceUseCase updateHomestayPriceUseCase;
+    private final GetHomestayPricesUseCase getHomestayPricesUseCase;
+    private final SearchHomestayUseCase searchHomestayUseCase;
+
+    @Autowired
+    public HomestayController(CreateHomestayUseCase createHomestayUseCase,
+                              UpdateHomestayUseCase updateHomestayUseCase,
+                              UpdateHomestayPriceUseCase updateHomestayPriceUseCase,
+                              GetHomestayPricesUseCase getHomestayPricesUseCase,
+                              SearchHomestayUseCase searchHomestayUseCase) {
+        this.createHomestayUseCase = createHomestayUseCase;
+        this.updateHomestayUseCase = updateHomestayUseCase;
+        this.updateHomestayPriceUseCase = updateHomestayPriceUseCase;
+        this.getHomestayPricesUseCase = getHomestayPricesUseCase;
+        this.searchHomestayUseCase = searchHomestayUseCase;
+    }
 
     @PostMapping
     public Response createHomestay(@RequestBody CreateHomestayRequest request) {

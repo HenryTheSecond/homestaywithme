@@ -9,8 +9,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class HomestayService {
+    private final HomestayRepository homestayRepository;
+
     @Autowired
-    private HomestayRepository homestayRepository;
+    public HomestayService(HomestayRepository homestayRepository) {
+        this.homestayRepository = homestayRepository;
+    }
 
     @Transactional
     public Homestay findHomestayById(Long id) {

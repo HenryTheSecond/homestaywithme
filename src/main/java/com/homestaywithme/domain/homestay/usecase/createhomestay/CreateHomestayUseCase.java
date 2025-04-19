@@ -20,17 +20,16 @@ import java.util.List;
 
 @Service
 public class CreateHomestayUseCase {
-    @Autowired
-    private HomestayRepository homestayRepository;
+    private final HomestayRepository homestayRepository;
+    private final AmenityService amenityService;
+    private final GeometryFactory geometryFactory;
 
     @Autowired
-    private AmenityService amenityService;
-
-    @Autowired
-    private HomestayAmenityRepository homestayAmenityRepository;
-
-    @Autowired
-    private GeometryFactory geometryFactory;
+    public CreateHomestayUseCase(HomestayRepository homestayRepository, AmenityService amenityService, GeometryFactory geometryFactory) {
+        this.homestayRepository = homestayRepository;
+        this.amenityService = amenityService;
+        this.geometryFactory = geometryFactory;
+    }
 
     @Transactional
     public Response createHomestay(CreateHomestayRequest request) {

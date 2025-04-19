@@ -12,8 +12,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class SearchHomestayUseCase {
+    private final HomestayRepository homestayRepository;
+
     @Autowired
-    private HomestayRepository homestayRepository;
+    public SearchHomestayUseCase(HomestayRepository homestayRepository) {
+        this.homestayRepository = homestayRepository;
+    }
 
     public Response searchHomestay(SearchHomestayRequest request) {
         var homestayPage = homestayRepository.searchHomestay(request.getLongitude(),

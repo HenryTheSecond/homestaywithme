@@ -14,12 +14,16 @@ import java.util.stream.Collectors;
 
 @Service
 public class UpdateHomestayPriceUseCase {
+    private final HomestayService homestayService;
+    private final HomestayAvailabilityRepository homestayAvailabilityRepository;
+    private final EntityManager entityManager;
+
     @Autowired
-    private HomestayService homestayService;
-    @Autowired
-    private HomestayAvailabilityRepository homestayAvailabilityRepository;
-    @Autowired
-    private EntityManager entityManager;
+    public UpdateHomestayPriceUseCase(HomestayService homestayService, HomestayAvailabilityRepository homestayAvailabilityRepository, EntityManager entityManager) {
+        this.homestayService = homestayService;
+        this.homestayAvailabilityRepository = homestayAvailabilityRepository;
+        this.entityManager = entityManager;
+    }
 
     @Transactional
     public Response updateHomestayPrice(Long id, UpdateHomestayPriceRequest request) {
