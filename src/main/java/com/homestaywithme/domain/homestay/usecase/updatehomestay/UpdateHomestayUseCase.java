@@ -1,7 +1,7 @@
 package com.homestaywithme.domain.homestay.usecase.updatehomestay;
 
-import com.homestaywithme.application.dto.response.Meta;
 import com.homestaywithme.application.dto.response.Response;
+import com.homestaywithme.application.service.ResponseService;
 import com.homestaywithme.domain.homestay.entity.Homestay;
 import com.homestaywithme.domain.homestay.entity.HomestayAmenity;
 import com.homestaywithme.domain.homestay.service.AmenityService;
@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class UpdateHomestayUseCase {
+    private final ResponseService responseService;
     private final HomestayService homestayService;
     private final HomestayRepository homestayRepository;
     private final AmenityService amenityService;
@@ -27,7 +28,8 @@ public class UpdateHomestayUseCase {
     private final EntityManager entityManager;
 
     @Autowired
-    public UpdateHomestayUseCase(HomestayService homestayService, HomestayRepository homestayRepository, AmenityService amenityService, GeometryFactory geometryFactory, EntityManager entityManager) {
+    public UpdateHomestayUseCase(ResponseService responseService, HomestayService homestayService, HomestayRepository homestayRepository, AmenityService amenityService, GeometryFactory geometryFactory, EntityManager entityManager) {
+        this.responseService = responseService;
         this.homestayService = homestayService;
         this.homestayRepository = homestayRepository;
         this.amenityService = amenityService;
@@ -56,7 +58,8 @@ public class UpdateHomestayUseCase {
 
         updateAmenity(homestay, request.getAmenityIds());
         homestayRepository.save(homestay);
-        return new Response(new Meta("", "", null), homestay.getId());
+
+        return responseService.responseSuccessWithPayload(homestay.getId());
     }
 
     @Transactional

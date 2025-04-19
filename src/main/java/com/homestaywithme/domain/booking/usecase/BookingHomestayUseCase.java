@@ -64,12 +64,11 @@ public class BookingHomestayUseCase {
 
         bookingRepository.save(booking);
 
-        return new Response(new Meta("", "", null),
-                BookingResponse
-                        .builder()
-                        .bookingId(booking.getId())
-                        .price(booking.getTotalAmount())
-                        .build());
+        return responseService.responseSuccessWithPayload(BookingResponse
+                .builder()
+                .bookingId(booking.getId())
+                .price(booking.getTotalAmount())
+                .build());
     }
 
     private void validateRequest(BookingRequest request) {

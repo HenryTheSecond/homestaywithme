@@ -1,13 +1,12 @@
 package com.homestaywithme.domain.homestay.usecase.createhomestay;
 
-import com.homestaywithme.application.dto.response.Meta;
 import com.homestaywithme.application.dto.response.Response;
+import com.homestaywithme.application.service.ResponseService;
 import com.homestaywithme.domain.booking.entity.HomestayAvailability;
 import com.homestaywithme.domain.homestay.service.AmenityService;
 import com.homestaywithme.domain.homestay.usecase.createhomestay.dto.request.CreateHomestayRequest;
 import com.homestaywithme.domain.homestay.entity.Homestay;
 import com.homestaywithme.domain.homestay.entity.HomestayAmenity;
-import com.homestaywithme.domain.homestay.repository.HomestayAmenityRepository;
 import com.homestaywithme.domain.homestay.repository.HomestayRepository;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
@@ -20,12 +19,17 @@ import java.util.List;
 
 @Service
 public class CreateHomestayUseCase {
+    private final ResponseService responseService;
     private final HomestayRepository homestayRepository;
     private final AmenityService amenityService;
     private final GeometryFactory geometryFactory;
 
     @Autowired
-    public CreateHomestayUseCase(HomestayRepository homestayRepository, AmenityService amenityService, GeometryFactory geometryFactory) {
+    public CreateHomestayUseCase(ResponseService responseService,
+                                 HomestayRepository homestayRepository,
+                                 AmenityService amenityService,
+                                 GeometryFactory geometryFactory) {
+        this.responseService = responseService;
         this.homestayRepository = homestayRepository;
         this.amenityService = amenityService;
         this.geometryFactory = geometryFactory;
@@ -54,8 +58,7 @@ public class CreateHomestayUseCase {
         createHomestayAmenity(homestay, request.getAmenityIds());
         createHomestayAvailable(homestay, request.getPrice());
 
-
-        return new Response(new Meta("", "", null), homestay.getId());
+        return responseService.responseSuccessWithPayload(homestay.getId());
     }
 
     private void createHomestayAmenity(Homestay homestay, List<Integer> amenityIds) {

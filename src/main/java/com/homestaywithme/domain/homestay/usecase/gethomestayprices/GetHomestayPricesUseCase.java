@@ -1,7 +1,7 @@
 package com.homestaywithme.domain.homestay.usecase.gethomestayprices;
 
-import com.homestaywithme.application.dto.response.Meta;
 import com.homestaywithme.application.dto.response.Response;
+import com.homestaywithme.application.service.ResponseService;
 import com.homestaywithme.domain.booking.repository.HomestayAvailabilityRepository;
 import com.homestaywithme.domain.homestay.service.HomestayService;
 import com.homestaywithme.domain.homestay.usecase.createhomestay.dto.HomestayPriceDto;
@@ -11,11 +11,13 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class GetHomestayPricesUseCase {
+    private final ResponseService responseService;
     private final HomestayService homestayService;
     private final HomestayAvailabilityRepository homestayAvailabilityRepository;
 
     @Autowired
-    public GetHomestayPricesUseCase(HomestayService homestayService, HomestayAvailabilityRepository homestayAvailabilityRepository) {
+    public GetHomestayPricesUseCase(ResponseService responseService, HomestayService homestayService, HomestayAvailabilityRepository homestayAvailabilityRepository) {
+        this.responseService = responseService;
         this.homestayService = homestayService;
         this.homestayAvailabilityRepository = homestayAvailabilityRepository;
     }
@@ -27,6 +29,6 @@ public class GetHomestayPricesUseCase {
                 .stream()
                 .map(x -> new HomestayPriceDto(x.getHomestayId(), x.getDate(), x.getPrice()))
                 .toList();
-        return new Response(new Meta("", "", null), homestayPrices);
+        return responseService.responseSuccessWithPayload(homestayPrices);
     }
 }

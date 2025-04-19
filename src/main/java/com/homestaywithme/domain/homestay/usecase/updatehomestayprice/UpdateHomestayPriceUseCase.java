@@ -1,7 +1,7 @@
 package com.homestaywithme.domain.homestay.usecase.updatehomestayprice;
 
-import com.homestaywithme.application.dto.response.Meta;
 import com.homestaywithme.application.dto.response.Response;
+import com.homestaywithme.application.service.ResponseService;
 import com.homestaywithme.domain.booking.entity.HomestayAvailability;
 import com.homestaywithme.domain.booking.repository.HomestayAvailabilityRepository;
 import com.homestaywithme.domain.homestay.service.HomestayService;
@@ -14,12 +14,14 @@ import java.util.stream.Collectors;
 
 @Service
 public class UpdateHomestayPriceUseCase {
+    private final ResponseService responseService;
     private final HomestayService homestayService;
     private final HomestayAvailabilityRepository homestayAvailabilityRepository;
     private final EntityManager entityManager;
 
     @Autowired
-    public UpdateHomestayPriceUseCase(HomestayService homestayService, HomestayAvailabilityRepository homestayAvailabilityRepository, EntityManager entityManager) {
+    public UpdateHomestayPriceUseCase(ResponseService responseService, HomestayService homestayService, HomestayAvailabilityRepository homestayAvailabilityRepository, EntityManager entityManager) {
+        this.responseService = responseService;
         this.homestayService = homestayService;
         this.homestayAvailabilityRepository = homestayAvailabilityRepository;
         this.entityManager = entityManager;
@@ -48,6 +50,6 @@ public class UpdateHomestayPriceUseCase {
             }
         }
 
-        return new Response(new Meta("", "", null), null);
+        return responseService.responseSuccessWithPayload(null);
     }
 }
