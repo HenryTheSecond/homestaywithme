@@ -2,7 +2,7 @@ package com.homestaywithme.domain.homestay.usecase.gethomestayprices;
 
 import com.homestaywithme.application.dto.response.Meta;
 import com.homestaywithme.application.dto.response.Response;
-import com.homestaywithme.domain.homestay.repository.HomestayAvailabilityRepository;
+import com.homestaywithme.domain.booking.repository.HomestayAvailabilityRepository;
 import com.homestaywithme.domain.homestay.service.HomestayService;
 import com.homestaywithme.domain.homestay.usecase.createhomestay.dto.HomestayPriceDto;
 import com.homestaywithme.domain.homestay.usecase.gethomestayprices.dto.request.GetHomestayPricesRequest;

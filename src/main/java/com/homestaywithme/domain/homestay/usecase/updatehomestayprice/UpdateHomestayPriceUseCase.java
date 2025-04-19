@@ -3,7 +3,7 @@ package com.homestaywithme.domain.homestay.usecase.updatehomestayprice;
 import com.homestaywithme.application.dto.response.Meta;
 import com.homestaywithme.application.dto.response.Response;
 import com.homestaywithme.domain.booking.entity.HomestayAvailability;
-import com.homestaywithme.domain.homestay.repository.HomestayAvailabilityRepository;
+import com.homestaywithme.domain.booking.repository.HomestayAvailabilityRepository;
 import com.homestaywithme.domain.homestay.service.HomestayService;
 import com.homestaywithme.domain.homestay.usecase.updatehomestayprice.dto.request.UpdateHomestayPriceRequest;
 import jakarta.persistence.EntityManager;

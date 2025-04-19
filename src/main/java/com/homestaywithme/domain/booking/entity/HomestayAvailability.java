@@ -4,8 +4,6 @@ import com.homestaywithme.domain.homestay.entity.Homestay;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.domain.Persistable;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -28,4 +26,11 @@ public class HomestayAvailability {
 
     private BigDecimal price;
     private Integer status;
+
+    public HomestayAvailability(Long homestayId, LocalDate date, BigDecimal price, Integer status) {
+        this.homestayId = homestayId;
+        this.date = date;
+        this.price = price;
+        this.status = status;
+    }
 }
