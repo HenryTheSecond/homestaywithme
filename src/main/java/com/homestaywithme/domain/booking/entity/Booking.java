@@ -1,7 +1,6 @@
 package com.homestaywithme.domain.booking.entity;
 
 import com.homestaywithme.domain.homestay.entity.Homestay;
-import com.homestaywithme.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

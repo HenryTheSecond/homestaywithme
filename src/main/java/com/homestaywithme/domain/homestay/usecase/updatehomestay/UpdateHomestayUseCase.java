@@ -62,17 +62,17 @@ public class UpdateHomestayUseCase {
         return responseService.responseSuccessWithPayload(homestay.getId());
     }
 
-    @Transactional
     private void updateAmenity(Homestay homestay, List<Integer> amenityIds) {
         var currentAmenities = homestay.getHomestayAmenities();
         var currentAmenityById = currentAmenities.stream()
                 .collect(Collectors.toMap(HomestayAmenity::getAmenityId, x -> x));
 
-        for(var currentAmenityId: currentAmenityById.keySet()) {
-            if(!amenityIds.contains(currentAmenityId)) {
-                currentAmenities.remove(currentAmenityById.get(currentAmenityId));
-                currentAmenityById.get(currentAmenityId).setHomestayId(null);
-                currentAmenityById.get(currentAmenityId).setHomestay(null);
+        for(var amenityById: currentAmenityById.entrySet()) {
+            var id = amenityById.getKey();
+            if(!amenityIds.contains(id)) {
+                currentAmenities.remove(currentAmenityById.get(id));
+                currentAmenityById.get(id).setHomestayId(null);
+                currentAmenityById.get(id).setHomestay(null);
             }
         }
 

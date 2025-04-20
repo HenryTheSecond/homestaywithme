@@ -3,7 +3,6 @@ package com.homestaywithme.domain.user.entity;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
-
 import java.util.Date;
 import java.util.List;
 
@@ -14,7 +13,7 @@ import java.util.List;
 public class Profile {
     @Id
     @Column(name = "user_id")
-    private Long Id;
+    private Long id;
 
     @OneToOne(fetch = FetchType.LAZY)
     @MapsId

@@ -1,9 +1,12 @@
 package com.homestaywithme.application.service;
 
+import com.homestaywithme.application.dto.response.ApiError;
 import com.homestaywithme.application.dto.response.Meta;
 import com.homestaywithme.application.dto.response.Response;
 import com.homestaywithme.domain.shared.constant.ResponseCode;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ResponseService {
@@ -16,7 +19,7 @@ public class ResponseService {
         return new Response(meta, payload);
     }
 
-    public Response responseWithResponseConstant(ResponseCode responseCode) {
+    public Response responseWithResponseCode(ResponseCode responseCode) {
         var meta = Meta
                 .builder()
                 .code(responseCode.getCode())
@@ -32,5 +35,15 @@ public class ResponseService {
                 .message(responseCode.getType())
                 .build();
         return new Response(meta, payload);
+    }
+
+    public Response responseWithInvalidParams(List<ApiError> errors) {
+        var meta = Meta
+                .builder()
+                .code(ResponseCode.BAD_REQUEST.getCode())
+                .message(ResponseCode.BAD_REQUEST.getType())
+                .errors(errors)
+                .build();
+        return new Response(meta, null);
     }
 }

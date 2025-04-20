@@ -7,7 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 class HomestaywithmeApplicationTests {
 
 	@Test
-	void contextLoads() {
+	void contextLoads() { // Noncompliant - method is empty
 	}
 
 }

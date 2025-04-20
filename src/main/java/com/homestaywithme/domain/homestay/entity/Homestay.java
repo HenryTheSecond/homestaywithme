@@ -8,7 +8,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnTransformer;
 import org.locationtech.jts.geom.Point;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -18,7 +17,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Homestay implements Serializable {
+public class Homestay {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

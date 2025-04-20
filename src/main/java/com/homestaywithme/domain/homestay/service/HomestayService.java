@@ -25,7 +25,6 @@ public class HomestayService {
                 .orElseThrow(() -> getHomestayNotExistException(id));
     }
 
-    @Transactional
     public boolean checkHomestayExist(Long id) {
         return homestayRepository.existsById(id);
     }

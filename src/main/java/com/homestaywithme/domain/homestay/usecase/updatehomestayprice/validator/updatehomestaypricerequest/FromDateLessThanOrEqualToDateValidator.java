@@ -7,7 +7,7 @@ import jakarta.validation.ConstraintValidatorContext;
 public class FromDateLessThanOrEqualToDateValidator implements
         ConstraintValidator<FromDateLessThanOrEqualToDate, UpdateHomestayPriceRequest> {
     @Override
-    public void initialize(FromDateLessThanOrEqualToDate constraintAnnotation) {
+    public void initialize(FromDateLessThanOrEqualToDate constraintAnnotation) { // Noncompliant - method is empty
 
     }
 

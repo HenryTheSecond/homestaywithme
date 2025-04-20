@@ -21,7 +21,7 @@ public class TestController {
     private HomestayRepository homestayRepository;
 
     @PostMapping("/homestays")
-    public void AddHomeStay() {
+    public void addHomeStay() {
         GeometryFactory geometryFactory = new GeometryFactory();
 
         Homestay homestay = new Homestay();

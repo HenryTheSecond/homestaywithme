@@ -1,6 +1,10 @@
 package com.homestaywithme.domain.booking.constant;
 
 public class BookingExceptionMessage {
+    private BookingExceptionMessage() {
+        throw new IllegalStateException();
+    }
+
     public static final String CHECK_IN_DATE_INVALID = "Check in date is invalid";
     public static final String GUESTS_INVALID = "Guests must be greater than 0";
     public static final String HOMESTAY_CAPACITY_NOT_ENOUGH = "Homestay capacity is not enough";

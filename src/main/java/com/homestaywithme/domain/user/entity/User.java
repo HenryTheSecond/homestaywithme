@@ -2,14 +2,12 @@ package com.homestaywithme.domain.user.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-
-import java.io.Serializable;
 import java.util.Date;
 
 @Entity
 @Table
 @Data
-public class User implements Serializable {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
