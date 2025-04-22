@@ -27,4 +27,6 @@ public class BookingRequest {
     private Integer guests;
 
     private String note;
+
+    private String ipAddress;
 }

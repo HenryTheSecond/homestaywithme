@@ -1,5 +1,6 @@
 package com.homestaywithme.domain.booking.usecase.bookinghomestay.request.dto.response;
 
+import com.homestaywithme.domain.payment.vnpay.dto.PaymentResponse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,4 +15,5 @@ import java.math.BigDecimal;
 public class BookingResponse {
     private Long bookingId;
     private BigDecimal price;
+    private PaymentResponse payment;
 }

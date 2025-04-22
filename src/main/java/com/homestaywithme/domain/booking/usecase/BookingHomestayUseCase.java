@@ -14,6 +14,8 @@ import com.homestaywithme.domain.booking.usecase.bookinghomestay.request.dto.req
 import com.homestaywithme.domain.booking.usecase.bookinghomestay.request.dto.response.BookingResponse;
 import com.homestaywithme.domain.homestay.entity.Homestay;
 import com.homestaywithme.domain.homestay.service.HomestayService;
+import com.homestaywithme.domain.payment.vnpay.dto.PaymentRequest;
+import com.homestaywithme.domain.payment.vnpay.service.VnPayPaymentService;
 import com.homestaywithme.domain.shared.constant.ResponseCode;
 import com.homestaywithme.domain.shared.exception.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,7 @@ import java.text.MessageFormat;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class BookingHomestayUseCase {
@@ -31,16 +34,19 @@ public class BookingHomestayUseCase {
     private final HomestayService homestayService;
     private final HomestayAvailabilityRepository homestayAvailabilityRepository;
     private final BookingRepository bookingRepository;
+    private final VnPayPaymentService vnPayPaymentService;
 
     @Autowired
     public BookingHomestayUseCase(ResponseService responseService,
                                   HomestayService homestayService,
                                   HomestayAvailabilityRepository homestayAvailabilityRepository,
-                                  BookingRepository bookingRepository) {
+                                  BookingRepository bookingRepository,
+                                  VnPayPaymentService vnPayPaymentService) {
         this.responseService = responseService;
         this.homestayService = homestayService;
         this.homestayAvailabilityRepository = homestayAvailabilityRepository;
         this.bookingRepository = bookingRepository;
+        this.vnPayPaymentService = vnPayPaymentService;
     }
 
     @Transactional
@@ -57,7 +63,7 @@ public class BookingHomestayUseCase {
         var homestay = new Homestay();
         homestay.setId(request.getHomestayId());
         var booking = Booking.builder()
-                .requestId("")
+                .requestId(UUID.randomUUID().toString())
                 .userId(request.getUserId())
                 .homestay(homestay)
                 .checkinDate(request.getFrom())
@@ -71,10 +77,20 @@ public class BookingHomestayUseCase {
 
         bookingRepository.save(booking);
 
+        var paymentRequest = PaymentRequest
+                .builder()
+                .userId(booking.getUserId())
+                .requestId(booking.getRequestId())
+                .amount(booking.getTotalAmount())
+                .ipAddress(request.getIpAddress())
+                .txnRef(String.valueOf(booking.getId()))
+                .build();
+
         return responseService.responseSuccessWithPayload(BookingResponse
                 .builder()
                 .bookingId(booking.getId())
                 .price(booking.getTotalAmount())
+                .payment(vnPayPaymentService.createPayment(paymentRequest))
                 .build());
     }
 

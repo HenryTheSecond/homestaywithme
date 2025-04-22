@@ -1,8 +1,10 @@
 package com.homestaywithme.api;
 
 import com.homestaywithme.application.dto.response.Response;
+import com.homestaywithme.application.util.RequestUtil;
 import com.homestaywithme.domain.booking.usecase.BookingHomestayUseCase;
 import com.homestaywithme.domain.booking.usecase.bookinghomestay.request.dto.request.BookingRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,7 +23,10 @@ public class BookingController {
     }
 
     @PostMapping
-    public Response bookingHomestay(@Valid @RequestBody BookingRequest request) {
+    public Response bookingHomestay(@Valid @RequestBody BookingRequest request,
+                                    HttpServletRequest httpServletRequest) {
+        var ipAddress = RequestUtil.getIpAddress(httpServletRequest);
+        request.setIpAddress(ipAddress);
         return bookingHomestayUseCase.bookingHomestay(request);
     }
 }
