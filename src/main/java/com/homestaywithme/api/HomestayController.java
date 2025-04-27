@@ -13,8 +13,10 @@ import com.homestaywithme.domain.homestay.usecase.updatehomestay.UpdateHomestayU
 import com.homestaywithme.domain.homestay.usecase.updatehomestayprice.dto.request.UpdateHomestayPriceRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+@PreAuthorize("isAuthenticated()")
 @RestController
 @RequestMapping("api/homestays")
 public class HomestayController {
@@ -60,6 +62,7 @@ public class HomestayController {
     }
 
     @GetMapping
+    @PreAuthorize("permitAll()")
     public Response searchHomestay(SearchHomestayRequest request) {
         return searchHomestayUseCase.searchHomestay(request);
     }

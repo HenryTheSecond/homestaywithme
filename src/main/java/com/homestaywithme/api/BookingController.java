@@ -7,11 +7,13 @@ import com.homestaywithme.domain.booking.usecase.bookinghomestay.request.dto.req
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@PreAuthorize("isAuthenticated()")
 @RestController
 @RequestMapping("/api/bookings")
 public class BookingController {
