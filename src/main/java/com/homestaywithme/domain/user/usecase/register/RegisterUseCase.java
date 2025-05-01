@@ -11,6 +11,7 @@ import com.homestaywithme.domain.user.usecase.register.dto.request.RegisterReque
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class RegisterUseCase {
@@ -30,6 +31,7 @@ public class RegisterUseCase {
         this.responseService = responseService;
     }
 
+    @Transactional
     public Response registerUser(RegisterRequest request) {
         if(userRepository.findByUsername(request.getUsername()).isPresent()) {
             responseService.response(ResponseCode.BAD_REQUEST, "User already existed");

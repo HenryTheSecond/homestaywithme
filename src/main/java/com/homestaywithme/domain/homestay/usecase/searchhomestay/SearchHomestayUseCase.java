@@ -27,7 +27,7 @@ public class SearchHomestayUseCase {
         this.homestayRepository = homestayRepository;
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public Response searchHomestay(SearchHomestayRequest request) {
         var homestayPage = homestayRepository.searchHomestay(request.getLongitude(),
                 request.getLatitude(),

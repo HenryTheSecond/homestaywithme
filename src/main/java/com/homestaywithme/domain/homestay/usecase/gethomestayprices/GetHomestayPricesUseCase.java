@@ -8,6 +8,7 @@ import com.homestaywithme.domain.homestay.usecase.createhomestay.dto.HomestayPri
 import com.homestaywithme.domain.homestay.usecase.gethomestayprices.dto.request.GetHomestayPricesRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class GetHomestayPricesUseCase {
@@ -22,6 +23,7 @@ public class GetHomestayPricesUseCase {
         this.homestayAvailabilityRepository = homestayAvailabilityRepository;
     }
 
+    @Transactional(readOnly = true)
     public Response getHomestayPrices(Long id, GetHomestayPricesRequest request) {
         homestayService.checkHomestayExistOrThrow(id);
         var homestayPrices = homestayAvailabilityRepository
