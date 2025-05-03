@@ -11,6 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 public class Amenity {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String name;

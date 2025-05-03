@@ -1,11 +1,17 @@
 package com.homestaywithme.domain.homestay.usecase.createhomestay.dto.request;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.List;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class CreateHomestayRequest {
     private String name;
     private String description;

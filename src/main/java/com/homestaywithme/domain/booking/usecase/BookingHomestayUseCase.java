@@ -58,7 +58,7 @@ public class BookingHomestayUseCase {
         homestayAvailabilities.forEach(x ->
                 homestayAvailabilityRepository.updateStatus(x.getHomestayId(),
                         x.getDate(),
-                        HomestayAvailabilityStatus.AVAILABLE.getValue()));
+                        HomestayAvailabilityStatus.HELD.getValue()));
 
         var homestay = new Homestay();
         homestay.setId(request.getHomestayId());
