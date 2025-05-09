@@ -9,7 +9,7 @@ import com.homestaywithme.domain.booking.constant.HomestayAvailabilityStatus;
 import com.homestaywithme.domain.booking.entity.Booking;
 import com.homestaywithme.domain.booking.entity.HomestayAvailability;
 import com.homestaywithme.domain.booking.repository.BookingRepository;
-import com.homestaywithme.domain.booking.repository.HomestayAvailabilityRepository;
+import com.homestaywithme.domain.booking.repository.homestayavailability.HomestayAvailabilityRepository;
 import com.homestaywithme.domain.booking.usecase.bookinghomestay.request.dto.request.BookingRequest;
 import com.homestaywithme.domain.booking.usecase.bookinghomestay.request.dto.response.BookingResponse;
 import com.homestaywithme.domain.homestay.entity.Homestay;

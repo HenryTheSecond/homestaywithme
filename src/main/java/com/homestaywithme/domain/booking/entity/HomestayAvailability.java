@@ -2,6 +2,8 @@ package com.homestaywithme.domain.booking.entity;
 
 import com.homestaywithme.domain.homestay.entity.Homestay;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
@@ -12,6 +14,8 @@ import java.time.LocalDate;
 @IdClass(HomestayAvailabilityId.class)
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class HomestayAvailability {
     @Id
     @Column(name = "homestay_id")
