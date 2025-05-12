@@ -1,6 +1,8 @@
 pipeline {
     agent any
-
+    environment {
+        HOME = "${env.WORKSPACE}"
+    }
     stages {
         stage('Checkout') {
             steps {
