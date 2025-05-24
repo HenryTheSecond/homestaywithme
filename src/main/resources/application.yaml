@@ -1,6 +1,31 @@
+server:
+  port: 8081
+
+management:
+  endpoint:
+    health:
+      show-details: always
+    prometheus:
+      enabled: true
+
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+  metrics:
+    distribution:
+      percentiles-histogram:
+        http:
+          server:
+            requests: true
+          client:
+            requests: true
+
 spring:
   application:
     name: homestaywithme
+
   datasource:
     url: jdbc:postgresql://localhost:5432/homestaywithme
     username: postgres
