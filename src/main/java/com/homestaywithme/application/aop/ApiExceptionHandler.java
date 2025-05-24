@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -52,9 +53,15 @@ public class ApiExceptionHandler {
         return responseService.responseWithInvalidParams(errors);
     }
 
+    @ExceptionHandler(ObjectOptimisticLockingFailureException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public Response handleOptimisticLocking() {
+        return responseService.response(ResponseCode.BAD_REQUEST, "Concurrent transaction, please retry");
+    }
+
     @ExceptionHandler(AccessDeniedException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    public Response handleUnauthorized(AccessDeniedException e) {
+    public Response handleUnauthorized() {
         return responseService.responseWithResponseCode(ResponseCode.UNAUTHORIZED);
     }
 
