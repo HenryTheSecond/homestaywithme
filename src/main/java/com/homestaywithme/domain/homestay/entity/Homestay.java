@@ -22,13 +22,16 @@ public class Homestay {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Version
+    private Long version;
+
     private String name;
     private String description;
     private int type;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "host_id")
-    private User Host;
+    private User host;
 
     private Integer status;
     private String phoneNumber;
@@ -45,7 +48,6 @@ public class Homestay {
 
     @ColumnTransformer(write = "?::jsonb")
     private String extraData;
-    private Long version;
     private Date createdAt;
     private Long createdBy;
     private Date updatedAt;
