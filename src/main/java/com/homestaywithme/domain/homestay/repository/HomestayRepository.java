@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import java.time.LocalDate;
+import java.util.Optional;
 
 @Repository
 public interface HomestayRepository extends JpaRepository<Homestay, Long> {
@@ -60,4 +61,13 @@ public interface HomestayRepository extends JpaRepository<Homestay, Long> {
                                            @Param("to") LocalDate to,
                                            @Param("orderBy") String orderBy,
                                            Pageable pageable);
+
+    @Query("""
+           SELECT h
+           FROM Homestay h
+                JOIN FETCH h.homestayAmenities ha
+                JOIN FETCH ha.amenity
+           WHERE h.id = :id
+           """)
+    Optional<Homestay> getHomestayById(@Param("id") Long id);
 }

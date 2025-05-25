@@ -2,6 +2,7 @@ package com.homestaywithme.api;
 
 import com.homestaywithme.application.dto.response.Response;
 import com.homestaywithme.domain.homestay.usecase.createhomestay.dto.request.CreateHomestayRequest;
+import com.homestaywithme.domain.homestay.usecase.gethomestaybyid.GetHomestayByIdUseCase;
 import com.homestaywithme.domain.homestay.usecase.gethomestayprices.GetHomestayPricesUseCase;
 import com.homestaywithme.domain.homestay.usecase.gethomestayprices.dto.request.GetHomestayPricesRequest;
 import com.homestaywithme.domain.homestay.usecase.searchhomestay.SearchHomestayUseCase;
@@ -12,32 +13,22 @@ import com.homestaywithme.domain.homestay.usecase.updatehomestayprice.UpdateHome
 import com.homestaywithme.domain.homestay.usecase.updatehomestay.UpdateHomestayUseCase;
 import com.homestaywithme.domain.homestay.usecase.updatehomestayprice.dto.request.UpdateHomestayPriceRequest;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @PreAuthorize("isAuthenticated()")
 @RestController
 @RequestMapping("api/homestays")
+@RequiredArgsConstructor
 public class HomestayController {
     private final CreateHomestayUseCase createHomestayUseCase;
     private final UpdateHomestayUseCase updateHomestayUseCase;
     private final UpdateHomestayPriceUseCase updateHomestayPriceUseCase;
     private final GetHomestayPricesUseCase getHomestayPricesUseCase;
     private final SearchHomestayUseCase searchHomestayUseCase;
+    private final GetHomestayByIdUseCase getHomestayByIdUseCase;
 
-    @Autowired
-    public HomestayController(CreateHomestayUseCase createHomestayUseCase,
-                              UpdateHomestayUseCase updateHomestayUseCase,
-                              UpdateHomestayPriceUseCase updateHomestayPriceUseCase,
-                              GetHomestayPricesUseCase getHomestayPricesUseCase,
-                              SearchHomestayUseCase searchHomestayUseCase) {
-        this.createHomestayUseCase = createHomestayUseCase;
-        this.updateHomestayUseCase = updateHomestayUseCase;
-        this.updateHomestayPriceUseCase = updateHomestayPriceUseCase;
-        this.getHomestayPricesUseCase = getHomestayPricesUseCase;
-        this.searchHomestayUseCase = searchHomestayUseCase;
-    }
 
     @PostMapping
     public Response createHomestay(@RequestBody CreateHomestayRequest request) {
@@ -65,5 +56,11 @@ public class HomestayController {
     @PreAuthorize("permitAll()")
     public Response searchHomestay(SearchHomestayRequest request) {
         return searchHomestayUseCase.searchHomestay(request);
+    }
+
+    @GetMapping("/{id}")
+    @PreAuthorize("permitAll()")
+    public Response getHomestayDetailById(@PathVariable("id") Long id) {
+        return getHomestayByIdUseCase.getHomestayDetailById(id);
     }
 }
