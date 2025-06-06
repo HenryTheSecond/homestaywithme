@@ -1,6 +1,7 @@
 package com.homestaywithme.api;
 
 import com.homestaywithme.application.dto.response.Response;
+import com.homestaywithme.application.service.ResponseService;
 import com.homestaywithme.domain.homestay.usecase.createhomestay.dto.request.CreateHomestayRequest;
 import com.homestaywithme.domain.homestay.usecase.gethomestaybyid.GetHomestayByIdUseCase;
 import com.homestaywithme.domain.homestay.usecase.gethomestayprices.GetHomestayPricesUseCase;
@@ -22,13 +23,13 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("api/homestays")
 @RequiredArgsConstructor
 public class HomestayController {
+    private final ResponseService responseService;
     private final CreateHomestayUseCase createHomestayUseCase;
     private final UpdateHomestayUseCase updateHomestayUseCase;
     private final UpdateHomestayPriceUseCase updateHomestayPriceUseCase;
     private final GetHomestayPricesUseCase getHomestayPricesUseCase;
     private final SearchHomestayUseCase searchHomestayUseCase;
     private final GetHomestayByIdUseCase getHomestayByIdUseCase;
-
 
     @PostMapping
     public Response createHomestay(@RequestBody CreateHomestayRequest request) {
@@ -38,7 +39,7 @@ public class HomestayController {
     @PutMapping("/{id}")
     public Response updateHomestay(@PathVariable("id") Long id,
                                    @RequestBody UpdateHomestayRequest request) {
-        return updateHomestayUseCase.updateHomestay(id, request);
+        return responseService.responseSuccessWithPayload(updateHomestayUseCase.updateHomestay(id, request));
     }
 
     @PutMapping("/{id}/prices")
@@ -61,6 +62,6 @@ public class HomestayController {
     @GetMapping("/{id}")
     @PreAuthorize("permitAll()")
     public Response getHomestayDetailById(@PathVariable("id") Long id) {
-        return getHomestayByIdUseCase.getHomestayDetailById(id);
+        return responseService.responseSuccessWithPayload(getHomestayByIdUseCase.getHomestayDetailById(id));
     }
 }

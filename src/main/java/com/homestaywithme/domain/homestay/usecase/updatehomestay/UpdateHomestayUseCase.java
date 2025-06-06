@@ -1,6 +1,7 @@
 package com.homestaywithme.domain.homestay.usecase.updatehomestay;
 
 import com.homestaywithme.application.dto.response.Response;
+import com.homestaywithme.application.redis.Constant;
 import com.homestaywithme.application.service.ResponseService;
 import com.homestaywithme.domain.homestay.entity.Homestay;
 import com.homestaywithme.domain.homestay.entity.HomestayAmenity;
@@ -12,6 +13,7 @@ import jakarta.persistence.EntityManager;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,7 +40,8 @@ public class UpdateHomestayUseCase {
     }
 
     @Transactional
-    public Response updateHomestay(Long id, UpdateHomestayRequest request) {
+    @CacheEvict(value = Constant.HOMESTAY_CACHE, key = "'homestay_' + #id", condition = "#result != null")
+    public Long updateHomestay(Long id, UpdateHomestayRequest request) {
         amenityService.checkAmenityExist(request.getAmenityIds());
         var homestay = homestayService.findHomestayById(id);
 
@@ -59,7 +62,7 @@ public class UpdateHomestayUseCase {
         updateAmenity(homestay, request.getAmenityIds());
         homestayRepository.save(homestay);
 
-        return responseService.responseSuccessWithPayload(homestay.getId());
+        return homestay.getId();
     }
 
     private void updateAmenity(Homestay homestay, List<Integer> amenityIds) {
