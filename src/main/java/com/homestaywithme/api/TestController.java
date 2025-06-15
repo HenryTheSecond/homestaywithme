@@ -1,16 +1,14 @@
 package com.homestaywithme.api;
 
+import com.homestaywithme.application.kafka.producer.sethomestayprice.SetHomestayPriceMessage;
+import com.homestaywithme.application.kafka.producer.sethomestayprice.SetHomestayPriceProducer;
 import com.homestaywithme.domain.homestay.entity.Homestay;
 import com.homestaywithme.domain.booking.entity.HomestayAvailabilityId;
 import com.homestaywithme.domain.homestay.repository.HomestayRepository;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.Arrays;
 
@@ -19,6 +17,9 @@ import java.util.Arrays;
 public class TestController {
     @Autowired
     private HomestayRepository homestayRepository;
+
+    @Autowired
+    private SetHomestayPriceProducer producer;
 
     @PostMapping("/homestays")
     public void addHomeStay() {
@@ -54,5 +55,10 @@ public class TestController {
         id2.setDate(LocalDate.of(2025, 1, 1));
 
         return id1.hashCode() == id2.hashCode();
+    }
+
+    @PostMapping("/producer")
+    public void produceMessage(@RequestBody SetHomestayPriceMessage message) {
+        producer.send(message);
     }
 }

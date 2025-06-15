@@ -1,4 +1,4 @@
-package com.homestaywithme.application.job;
+package com.homestaywithme.application.job.sethomestaypricejob;
 
 import com.homestaywithme.domain.booking.entity.HomestayAvailability;
 import com.homestaywithme.domain.booking.repository.homestayavailability.HomestayAvailabilityRepository;

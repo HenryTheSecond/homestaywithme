@@ -2,11 +2,13 @@ package com.homestaywithme.domain.booking.repository.homestayavailability.model;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Data
 @Builder
+@NoArgsConstructor
 public class SetPriceHomestayAvailability {
     private Long homestayId;
     private BigDecimal price;

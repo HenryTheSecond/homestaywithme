@@ -26,6 +26,35 @@ spring:
   application:
     name: homestaywithme
 
+  kafka:
+    topic:
+      set-homestay-price-topic: set-homestay-price-topic
+
+    bootstrap-servers: localhost:9092
+    security:
+      protocol: plaintext
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      acks: all
+      retries: 30
+      compression-type: lz4
+      properties:
+        enable.idempotence: true
+        max.in.flight.requests.per.connection: 5
+        spring.json.add.type.headers: false
+    consumer:
+      group-id: homestaywithme
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      auto-offset-reset: latest
+      enable-auto-commit: true
+      properties:
+        spring.json.trusted.packages: '*'
+        spring.json.use.type.headers: false
+        partition.assignment.strategy: org.apache.kafka.clients.consumer.CooperativeStickyAssignor
+
+
   datasource:
     url: jdbc:postgresql://localhost:5432/homestaywithme
     username: postgres
