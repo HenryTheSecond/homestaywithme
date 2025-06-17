@@ -67,6 +67,12 @@ spring:
       hibernate:
         ddl-auto: none
 
+  flyway:
+    enabled: false
+    baselineOnMigrate: true
+    url: jdbc:postgresql://localhost:5432/homestaywithme
+    user: postgres
+    password: password
 logging:
   level:
     org.hibernate.SQL: DEBUG
