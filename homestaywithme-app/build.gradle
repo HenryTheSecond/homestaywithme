@@ -1,0 +1,53 @@
+buildscript {
+    dependencies {
+        classpath("org.flywaydb:flyway-database-postgresql:${libs.versions.flyway.get()}")
+    }
+}
+
+plugins {
+    alias(libs.plugins.spring.boot)
+    alias(libs.plugins.spring.dependency.management)
+    alias(libs.plugins.flyway)
+}
+
+group = 'com.homestaywithme'
+version = '0.0.1-SNAPSHOT'
+
+flyway {
+    url = 'jdbc:postgresql://localhost:5432/homestaywithme'
+    user = 'postgres'
+    password = 'password'
+}
+
+dependencies {
+    implementation libs.spring.boot.starter.data.jpa
+    implementation libs.spring.boot.starter.data.redis
+    implementation libs.spring.boot.starter.web
+    implementation libs.spring.boot.starter.validation
+    implementation libs.spring.boot.starter.security
+    implementation libs.spring.boot.starter.quartz
+    implementation libs.spring.boot.starter.actuator
+    implementation libs.spring.kafka
+    implementation libs.flyway.core
+    implementation libs.flyway.postgresql
+    implementation libs.jedis
+    implementation libs.micrometer.prometheus
+    implementation libs.loki.logback
+    implementation libs.jts.core
+    implementation libs.hibernate.spatial
+    implementation libs.jjwt.api
+    implementation libs.jjwt.impl
+    implementation libs.jjwt.jackson
+    implementation libs.mapstruct
+
+    annotationProcessor libs.lombok
+    annotationProcessor libs.mapstruct.processor
+
+    compileOnly libs.lombok
+    developmentOnly libs.spring.boot.devtools
+    runtimeOnly libs.postgresql
+    testRuntimeOnly libs.junit.launcher
+
+    testImplementation libs.spring.boot.starter.test
+    testImplementation libs.spring.kafka.test
+}
