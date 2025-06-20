@@ -1,3 +1,4 @@
 rootProject.name = 'homestaywithme'
 include 'homestaywithme-app'
+include 'homestaywithme-consumer'
 

@@ -1,0 +1,28 @@
+plugins {
+    alias(libs.plugins.spring.boot)
+    alias(libs.plugins.spring.dependency.management)
+}
+
+group = 'com.homestaywithme'
+version = '0.0.1-SNAPSHOT'
+
+dependencies {
+    implementation libs.spring.boot.starter.data.jpa
+    implementation libs.spring.boot.starter.validation
+    implementation libs.spring.boot.starter.actuator
+    implementation libs.spring.kafka
+    implementation libs.flyway.postgresql
+    implementation libs.micrometer.prometheus
+    implementation libs.loki.logback
+    implementation libs.jts.core
+    implementation libs.hibernate.spatial
+
+    annotationProcessor libs.lombok
+
+    compileOnly libs.lombok
+    runtimeOnly libs.postgresql
+    testRuntimeOnly libs.junit.launcher
+
+    testImplementation libs.spring.boot.starter.test
+    testImplementation libs.spring.kafka.test
+}

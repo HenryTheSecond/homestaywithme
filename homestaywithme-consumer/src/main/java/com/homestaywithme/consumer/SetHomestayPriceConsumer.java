@@ -1,7 +1,8 @@
-package com.homestaywithme.app.application.kafka.producer.sethomestayprice;
+package com.homestaywithme.consumer;
 
-import com.homestaywithme.app.domain.booking.entity.HomestayAvailability;
-import com.homestaywithme.app.domain.booking.repository.homestayavailability.HomestayAvailabilityRepository;
+import com.homestaywithme.consumer.entity.HomestayAvailability;
+import com.homestaywithme.consumer.model.SetHomestayPriceMessage;
+import com.homestaywithme.consumer.repository.HomestayAvailabilityRepository;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.apache.kafka.common.errors.RetriableException;
@@ -28,7 +29,7 @@ public class SetHomestayPriceConsumer {
             include = {RetriableException.class}
     )
     @KafkaListener(topics = "${spring.kafka.topic.set-homestay-price-topic}",
-            properties = {"spring.json.value.default.type=com.homestaywithme.app.application.kafka.producer.sethomestayprice.SetHomestayPriceMessage"},
+            properties = {"spring.json.value.default.type=com.homestaywithme.consumer.model.SetHomestayPriceMessage"},
             concurrency = "1")
     public void consumeSetHomestayPrice(@Payload SetHomestayPriceMessage message) {
         for(var homestay: message.getListSetHomestayPriceAvailability()) {
