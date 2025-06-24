@@ -56,9 +56,4 @@ public class TestController {
 
         return id1.hashCode() == id2.hashCode();
     }
-
-    @PostMapping("/producer")
-    public void produceMessage(@RequestBody SetHomestayPriceMessage message) {
-        producer.send(message);
-    }
 }

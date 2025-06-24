@@ -1,5 +1,6 @@
 package com.homestaywithme.app.application.kafka.producer.sethomestayprice;
 
+import com.homestaywithme.share.kafka.KafkaMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -17,7 +18,7 @@ public class SetHomestayPriceProducer {
         this.kafkaTemplate = kafkaTemplate;
     }
 
-    public void send(SetHomestayPriceMessage message) {
+    public void send(KafkaMessage<SetHomestayPriceMessage> message) {
         try {
             kafkaTemplate.send(setHomestayPriceTopic, message);
         } catch (Exception e) {

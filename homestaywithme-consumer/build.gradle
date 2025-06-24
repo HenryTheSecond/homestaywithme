@@ -7,6 +7,8 @@ group = 'com.homestaywithme'
 version = '0.0.1-SNAPSHOT'
 
 dependencies {
+    implementation project(':homestaywithme-share')
+
     implementation libs.spring.boot.starter.data.jpa
     implementation libs.spring.boot.starter.validation
     implementation libs.spring.boot.starter.actuator

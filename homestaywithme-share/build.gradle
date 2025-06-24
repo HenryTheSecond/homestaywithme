@@ -1,0 +1,10 @@
+group = 'com.homestaywithme'
+version = '0.0.1-SNAPSHOT'
+
+dependencies {
+    annotationProcessor libs.lombok
+
+    compileOnly libs.lombok
+    testRuntimeOnly libs.junit.launcher
+}
+
