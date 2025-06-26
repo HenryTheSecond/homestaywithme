@@ -1,0 +1,14 @@
+./gradlew :homestaywithme-app:bootJar
+
+docker build -t homestaywithme-app -f homestaywithme-app/Dockerfile .
+
+docker run --name homestaywithme-app \
+-p 8081:8081 \
+-e SPRING_DATASOURCE_URL="jdbc:postgresql://host.docker.internal:5432/homestaywithme" \
+-e SPRING_DATASOURCE_USERNAME="postgres" \
+-e SPRING_DATASOURCE_PASSWORD="password" \
+-e SPRING_DATA_REDIS_HOST="host.docker.internal" \
+-e SPRING_DATA_REDIS_PORT="6379" \
+-e SPRING_KAFKA_BOOTSTRAP_SERVERS="host.docker.internal:29092" \
+-e LOKI_URL="http://host.docker.internal:3100/loki/api/v1/push" \
+homestaywithme-app

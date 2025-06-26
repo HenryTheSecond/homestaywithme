@@ -78,6 +78,9 @@ spring:
       username:
       password:
 
+loki:
+  url: http://localhost:3100/loki/api/v1/push
+
 logging:
   level:
     org.hibernate.SQL: DEBUG

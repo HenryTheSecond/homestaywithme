@@ -2,6 +2,8 @@ package com.homestaywithme.app.application.redis;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.homestaywithme.app.domain.homestay.usecase.gethomestaybyid.dto.HomestayDto;
+import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
@@ -14,10 +16,15 @@ import java.time.Duration;
 import static org.springframework.data.redis.serializer.RedisSerializationContext.SerializationPair.fromSerializer;
 
 @Configuration
+@RequiredArgsConstructor
 public class RedisConfiguration {
+    private final RedisProperties redisProperties;
+
     @Bean
     public JedisConnectionFactory redisConnectionFactory() {
-        var config = new RedisStandaloneConfiguration("localhost", 6379);
+        var config = new RedisStandaloneConfiguration();
+        config.setHostName(redisProperties.getHost());
+        config.setPort(redisProperties.getPort());
         return new JedisConnectionFactory(config);
     }
 
