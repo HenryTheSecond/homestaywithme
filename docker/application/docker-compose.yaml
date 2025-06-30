@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  homestaywithme-app:
+    image: homestaywithme-app
+    container_name: homestaywithme-app
+    ports:
+      - "8081:8081"
+    environment:
+      SPRING_DATASOURCE_URL: "jdbc:postgresql://host.docker.internal:5432/homestaywithme"
+      SPRING_DATASOURCE_USERNAME: "postgres"
+      SPRING_DATASOURCE_PASSWORD: "password"
+      SPRING_DATA_REDIS_HOST: "host.docker.internal"
+      SPRING_DATA_REDIS_PORT: "6379"
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: "host.docker.internal:29092"
+      LOKI_URL: "http://host.docker.internal:3100/loki/api/v1/push"
+
+  homestaywithme-consumer:
+    image: homestaywithme-app
+    container_name: homestaywithme-consumer
+    environment:
+      SPRING_DATASOURCE_URL: "jdbc:postgresql://host.docker.internal:5432/homestaywithme"
+      SPRING_DATASOURCE_USERNAME: "postgres"
+      SPRING_DATASOURCE_PASSWORD: "password"
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: "host.docker.internal:29092"
+      LOKI_URL: "http://host.docker.internal:3100/loki/api/v1/push"
