@@ -62,6 +62,7 @@ public class BookingHomestayUseCase {
 
         var homestay = new Homestay();
         homestay.setId(request.getHomestayId());
+        homestay.setVersion(1L);
         var booking = Booking.builder()
                 .requestId(UUID.randomUUID().toString())
                 .userId(request.getUserId())
