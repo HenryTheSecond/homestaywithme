@@ -1,0 +1,31 @@
+name: Homestaywithme CI
+
+on:
+  push:
+    branches: [ main, CI ]
+  pull_request:
+    branches: [ main, CI ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: 'gradle'
+
+      - name: Build application artifact
+        run: ./gradlew bootJar
+
+      - name: Run Unit Tests
+        run: ./gradlew unitTest
